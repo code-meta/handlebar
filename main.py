@@ -1,8 +1,11 @@
 from app import app
+from utils import color_print
+
 
 # # ask the user what they want
 user_input = ""
 
 while user_input != 'q':
-    user_input = input("What is it you want? ").lower()
+    color_print("What is it you want? ", end="")
+    user_input = input().lower()
     app(user_input)
