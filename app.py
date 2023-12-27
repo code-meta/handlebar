@@ -2,7 +2,7 @@
 import time
 import pyautogui
 
-from utils import open_browser, color_print
+from utils import open_browser, color_print, is_valid_domain
 
 from settings import SITE, DEFAULT_SITES, HELP_TEXT
 
@@ -19,11 +19,11 @@ def focus_url_bar():
 def open_site():
     is_private_tab = False
 
-    if len(user_input) >= 3 and user_input[2] == "-p":
+    if len(user_input) >= 2 and user_input[1] == "-p":
         is_private_tab = True
 
     try:
-        site = DEFAULT_SITES.index(user_input[1])
+        site = DEFAULT_SITES.index(user_input[0])
 
         open_browser(is_private_tab)
         focus_url_bar()
@@ -53,13 +53,25 @@ def open_site():
             return None
 
     except ValueError:
-        if "-osm" != user_input[0]:
-            color_print("Unknown site use -osm for custom sites.\n")
+        if not is_valid_domain(user_input[0]):
+            msg = r"""
+Oops invalid input
+________________
+< No command found >
+ ----------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+"""
+            color_print(msg)
             return None
 
         open_browser(is_private_tab)
         focus_url_bar()
-        unknown_site(user_input[1])
+        unknown_site(user_input[0])
 
 
 def app(u_input):
@@ -70,11 +82,11 @@ def app(u_input):
         color_print(HELP_TEXT)
         return None
 
-    if not len(user_input) >= 2:
+    if not len(user_input) >= 1:
         color_print("Miss typed, please try again.\n")
         return None
 
-    elif "-os" == user_input[0] or "-osm" == user_input[0]:
+    elif user_input[0]:
         open_site()
 
     else:

@@ -1,9 +1,10 @@
+import re
 import time
 import subprocess
 import pyautogui
 import pygetwindow as gw
 
-from colorama import init, Fore, Back, Style
+from colorama import init, Fore
 
 init(autoreset=True)
 
@@ -108,3 +109,14 @@ def color_print(text, **kawrgs):
         Changes print color
     """
     print(Fore.LIGHTGREEN_EX + text, **kawrgs)
+
+
+"""
+    ****************************
+"""
+
+regex = r"^(?:https:\/\/)?(?:(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}$"
+
+
+def is_valid_domain(string):
+    return re.match(regex, string) is not None

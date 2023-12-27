@@ -23,8 +23,8 @@ HELP_TEXT = """
 Learn to use the followings in order use hanlebar better
 
 open sites with:
-    -os site_name 
-        Example: -os youtube
+    site_name 
+        Example: youtube
         default supported sites are:
             - youtube      ==   youtube.com 
             - imdb         ==   imdb.com 
@@ -34,12 +34,12 @@ open sites with:
             - mdn          ==   developer.mozilla.org 
 
         for other sites you can use the following:
-            -osm site_domain
-            Example: -osm nytimes.com/international
+            site_domain or site_url
+            Example: nytimes.com/international
         
         to open sites in a private tab use the following:
-            -os site_name -p 
-                Example: -os youtube -p
-            -osm site_domain -p
-                Example: -osm nytimes.com/international -p
+            site_name -p 
+                Example: youtube -p
+            site_domain -p or site_url -p 
+                Example: nytimes.com/international -p
 """

@@ -7,7 +7,7 @@ greet = """
 Welcome back, this is handlebar your personal
 assistant for handling common task like 
 open websites or apps.
-to open sites like youtube write \"-os youtube\".
+to open sites like youtube write \"youtube\".
 to learn more about the features write \"--help".
 """
 
@@ -25,7 +25,7 @@ user_input = ""
 try:
 
     while user_input != 'q':
-        color_print("Hi, What can i do for you?")
+        color_print("What action do you want to perform?")
         user_input = input().lower()
         app(user_input)
 
