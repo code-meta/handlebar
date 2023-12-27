@@ -1,59 +1,82 @@
 
 import time
 import pyautogui
+
 from utils import open_browser, color_print
+
+from settings import SITE, DEFAULT_SITES, HELP_TEXT
+
+from services import youtube, google, yahoo, mdn, healthline, imdb, unknown_site
 
 user_input = ""
 
-help_text = """
-Learn to use the followings in order use hanlebar better
 
-open sites with:
-    -os site_name 
-        Example: -os youtube
-        default supported sites are:
-            - youtube.com 
-            - imdb.com 
-            - google.com   
-            - yahoo.com   
-            - healthline.com    
-            - developer.mozilla.org 
-
-        for other sites you can use the following:
-            -osm site_domain
-            Example: -osm nytimes.com/international
-        
-        to open sites in a private tab use the following:
-            -os site_name -p 
-                Example: -os youtube -p
-            -osm site_domain -p
-                Example: -osm nytimes.com/international -p
-"""
-
-def open_world():
-    if "youtube" in user_input:
-        open_browser()
-        time.sleep(1)
-        pyautogui.hotkey("ctrl", "t")
-        time.sleep(1)
-        pyautogui.hotkey("alt", "d")
-        pyautogui.write("https://www.youtube.com/")
-        pyautogui.press("enter")
+def focus_url_bar():
+    time.sleep(1.5)
+    pyautogui.hotkey("alt", "d")
 
 
-def show_help():
-    color_print(help_text)
+def open_site():
+    is_private_tab = False
+
+    if len(user_input) >= 3 and user_input[2] == "-p":
+        is_private_tab = True
+
+    try:
+        site = DEFAULT_SITES.index(user_input[1])
+
+        open_browser(is_private_tab)
+        focus_url_bar()
+
+        if SITE.YOUTUBE == DEFAULT_SITES[site]:
+            youtube()
+            return None
+
+        if SITE.IMDB == DEFAULT_SITES[site]:
+            imdb()
+            return None
+
+        if SITE.GOOGLE == DEFAULT_SITES[site]:
+            google()
+            return None
+
+        if SITE.YAHOO == DEFAULT_SITES[site]:
+            yahoo()
+            return None
+
+        if SITE.HEALTHLINE == DEFAULT_SITES[site]:
+            healthline()
+            return None
+
+        if SITE.MDN == DEFAULT_SITES[site]:
+            mdn()
+            return None
+
+    except ValueError:
+        if "-osm" != user_input[0]:
+            color_print("Unknown site use -osm for custom sites.\n")
+            return None
+
+        open_browser(is_private_tab)
+        focus_url_bar()
+        unknown_site(user_input[1])
 
 
 def app(u_input):
     global user_input
-    user_input = str(u_input).lower()
+    user_input = str(u_input).strip().split(" ")
 
-    if "--help" in user_input:
-        show_help()
+    if "--help" == user_input[0]:
+        color_print(HELP_TEXT)
+        return None
 
-    elif "-os" in user_input:
-        open_world()
+    if not len(user_input) >= 2:
+        color_print("Miss typed, please try again.\n")
+        return None
+
+    elif "-os" == user_input[0] or "-osm" == user_input[0]:
+        open_site()
+
     else:
         color_print("Miss typed?, to learn more write --help")
         print()
